@@ -40,9 +40,9 @@ public class greetzTest {
         driver.findElement(By.xpath("//div[@class= 'center full-size']")).click();
         Thread.sleep(2000);
         String actualName = driver.findElement(By.xpath("//form[@name= 'productAmountForm']/h1")).getText().toLowerCase();
-        Assert.assertEquals(actualName, expectedName);
+        Assert.assertEquals(actualName, expectedName, "Names are the same");
         String actualPrice = driver.findElement(By.className("price-normal")).getText().substring(2);
-        Assert.assertEquals(actualPrice, expectedPrice);
+        Assert.assertEquals(actualPrice, expectedPrice, "Prices are equals");
         driver.findElement(By.xpath("//div[text() =  'Toegevoegd aan favorieten']")).click();
         driver.quit();
     }
@@ -61,7 +61,7 @@ public class greetzTest {
         String perPrice = driver.findElement(By.xpath("//g-price[@class='price-card price-block']//span[@class='price-normal']")).getText();
         String doublePerPrice = String.valueOf(Double.parseDouble((perPrice.substring(2).replace(",", "."))) * 2);
         String totalPrice = driver.findElement(By.xpath("//span//div[@class='price-total']")).getText().replace(',', '.');
-        Assert.assertTrue(totalPrice.contains(doublePerPrice));
+        Assert.assertTrue(totalPrice.contains(doublePerPrice), "Total price is correct");
         driver.quit();
     }
 }
