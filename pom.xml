@@ -25,5 +25,18 @@
             <version>3.141.59</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId></groupId>
+                <artifactId></artifactId>
+                <version></version>
+                <configuration>
+                    <suiteXmlFiles>src/test/resourcis/my</suiteXmlFiles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     
 </project>
