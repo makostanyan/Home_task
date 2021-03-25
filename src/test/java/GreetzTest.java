@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class GreetzTest {
 
-    WebDriver driver;
+    private WebDriver driver;
 
     private void loginToPage() throws InterruptedException {
 
@@ -25,7 +25,7 @@ public class GreetzTest {
         loginForm.findElement(By.name("email")).sendKeys(email);
         loginForm.findElement(By.name("password")).sendKeys(password);
         driver.findElement(By.id("login-cta")).click();
-        Thread.sleep(30000);
+        Thread.sleep(2000);
     }
 
     @Test
@@ -33,23 +33,29 @@ public class GreetzTest {
 
         loginToPage();
         driver.get("https://www.greetz.nl/ballonnen/denken-aan");
-        Thread.sleep(30000);
+        Thread.sleep(2000);
         WebElement productComponents = driver.findElement(By.cssSelector("div.b-products-grid__item:nth-child(1)"));
-        String expectedPrice = productComponents.findElement(By.className("b-products-grid__item-price")).getText() ;
+        String expectedPrice = productComponents.findElement(By.className("b-products-grid__item-price")).getText();
         String expectedName = productComponents.findElement(By.className("b-products-grid__item-title")).getText().toLowerCase();
         productComponents.findElement(By.className("b-favourite")).click();
+        Thread.sleep(1000);
         driver.findElement(By.xpath("//i[@data-qa-ref= 'profile-icon']")).click();
+        Thread.sleep(1000);
         driver.findElement(By.xpath("//span[text() = 'Favorieten']")).click();
-        Thread.sleep(3000);
-        driver.findElement(By.xpath("//div[@class= 'center full-size']")).click();
         Thread.sleep(2000);
-        String actualName = driver.findElement(By.xpath("//form[@name= 'productAmountForm']/h1")).getText().toLowerCase();
+        driver.findElement(By.xpath("//div[@class= 'center full-size']")).click();
+        Thread.sleep(1000);
+        WebElement detail = driver.findElement(By.className("page-detail__sidebar-container"));
+        String actualName = detail.findElement(By.className("giftdetails--title")).
+                getText().toLowerCase();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(actualName, expectedName, "Names are different");
-        String actualPrice = driver.findElement(By.className("price-normal")).getText().substring(2);
+        String actualPrice = detail.findElement(By.className("price-normal")).getText().
+                replaceAll("[^\\d,]", "");
         softAssert.assertEquals(actualPrice, expectedPrice, "Prices are different");
         softAssert.assertAll();
-        driver.findElement(By.xpath("//div[text() =  'Toegevoegd aan favorieten']")).click();
+        driver.findElement(By.className("productdetails-favorite")).click();
+        Thread.sleep(1000);
         driver.quit();
     }
 
@@ -60,7 +66,6 @@ public class GreetzTest {
         driver.get("https://www.greetz.nl/kaarten/denken-aan");
         Thread.sleep(5000);
         List<WebElement> results = driver.findElements(By.xpath("//a[@data-qa-ref='product-wall-item']"));
-        Thread.sleep(3000);
         Random random = new Random();
         results.get(random.nextInt(results.size())).click();
         Thread.sleep(3000);
