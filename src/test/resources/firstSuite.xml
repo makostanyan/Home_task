@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="firstSuite" verbose="1" >
+    <test name="firstTest">
+        <classes>
+            <class name="GreetzTest">
+                <methods>
+                    <include name="favoritesTest"/>
+                    <include name="cardsTest"/>
+                </methods>
+            </class>
+            <class name="SeleniumDevTest">
+                <methods>
+                    <include name="seleniumVersionTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

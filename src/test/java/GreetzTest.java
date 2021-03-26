@@ -3,6 +3,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import java.util.List;
@@ -12,6 +14,7 @@ public class GreetzTest {
 
     private WebDriver driver;
 
+    @BeforeMethod
     private void loginToPage() throws InterruptedException {
 
         String email = "HiHello@gmail.com";
@@ -28,10 +31,15 @@ public class GreetzTest {
         Thread.sleep(2000);
     }
 
-    @Test
+    @AfterMethod
+    public void driverQuit (){
+
+        driver.quit();
+    }
+
+    @Test(priority = 2)
     public void favoritesTest() throws InterruptedException {
 
-        loginToPage();
         driver.get("https://www.greetz.nl/ballonnen/denken-aan");
         Thread.sleep(2000);
         WebElement productComponents = driver.findElement(By.cssSelector("div.b-products-grid__item:nth-child(1)"));
@@ -56,13 +64,11 @@ public class GreetzTest {
         softAssert.assertAll();
         driver.findElement(By.className("productdetails-favorite")).click();
         Thread.sleep(1000);
-        driver.quit();
     }
 
-    @Test
+    @Test(priority = 1)
     public void cardsTest() throws InterruptedException {
 
-        loginToPage();
         driver.get("https://www.greetz.nl/kaarten/denken-aan");
         Thread.sleep(5000);
         List<WebElement> results = driver.findElements(By.xpath("//a[@data-qa-ref='product-wall-item']"));
@@ -73,10 +79,9 @@ public class GreetzTest {
         element.clear();
         element.sendKeys("2");
         String perPrice = driver.findElement(By.xpath("//g-price[@class='price-card price-block']//span[@class='price-normal']")).getText();
-        double doublePerPrice = Double.parseDouble(perPrice.replaceAll("[^\\d,]", "").replace(',', '.'))* 2;
+        double doublePerPrice = Double.parseDouble(perPrice.replaceAll("[^\\d,]", "").replace(',', '.')) * 2;
         String totalPrice = driver.findElement(By.xpath("//span//div[@class='price-total']")).getText();
         double doubleTotalPrice = Double.parseDouble(totalPrice.replaceAll("[^\\d,]", "").replace(',', '.'));
         Assert.assertEquals(doublePerPrice, doubleTotalPrice, "Total amount is incorrect");
-        driver.quit();
     }
 }
