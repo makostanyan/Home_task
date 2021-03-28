@@ -26,8 +26,11 @@ public class WaitTest {
     }
 
     @AfterMethod
-    public void quitDriver(){
+    public void removeAndQuit(){
 
+        driver.findElement(By.name("quantity")).click();
+        waitUntil(By.xpath("//select//option[text()='Remove']"));
+        driver.findElement(By.xpath("//select//option[text()='Remove']")).click();
         driver.quit();
     }
 
@@ -64,10 +67,7 @@ public class WaitTest {
         WebElement bagProductComponents = driver.findElement(By.className("ph-z"));
         String actualPrice = bagProductComponents.findElement(By.className("yh-z")).getText();
         String actualName = bagProductComponents.findElement(By.className("Xk-z")).getText().toLowerCase();
-        Assert.assertEquals(actualName,expectedName);
-        Assert.assertEquals(actualPrice, expectedPrice);
-        driver.findElement(By.name("quantity")).click();
-        waitUntil(By.xpath("//select//option[text()='Remove']"));
-        driver.findElement(By.xpath("//select//option[text()='Remove']")).click();
+        Assert.assertEquals(actualName,expectedName, "Product names are different");
+        Assert.assertEquals(actualPrice, expectedPrice, "Product prices are different");
     }
 }
