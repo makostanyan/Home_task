@@ -19,12 +19,18 @@ public class SortedBooksPage {
         this.driver = driver;
     }
 
-    public boolean isSortedBooksList() {
+    private ArrayList<Double> elementListToArrayList(){
 
         List<WebElement> price = driver.findElements(priceLoc);
         ArrayList<Double>  priceList = new ArrayList<>();
         for (WebElement i : price){
             priceList.add(Double.parseDouble(i.getText().replaceAll("[^\\d.]", "")));}
+        return priceList;
+    }
+
+    public boolean isSortedBooksList() {
+
+        ArrayList<Double> priceList = elementListToArrayList();
         for (int i = 0; i < priceList.size() - 1; i++){
             if (priceList.get(i) >= priceList.get(i + 1)) {
                 return false;

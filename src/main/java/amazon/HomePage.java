@@ -24,7 +24,7 @@ public class HomePage {
         return driver.findElement(deliverLoc).getText().replaceAll("\\s", "");
     }
 
-    public void bookSearch(){
+    public void clickOnBookDepartment(){
 
         driver.findElement(searchDropdownLoc).click();
         driver.findElement(booksLoc).click();

@@ -37,7 +37,7 @@ public class AmazonBooksTest {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(homePage.deliveryToArmenia(), "DelivertoArmenia",
                 "It is not delivery to Armenia");
-        homePage.bookSearch();
+        homePage.clickOnBookDepartment();
         homePage.waitUntilPageLoad();
         homePage.authorSearch(authorName);
         AuthorBooksPage authorBooksPage = new AuthorBooksPage(driver);
@@ -49,7 +49,6 @@ public class AmazonBooksTest {
         aboutAuthorPage.waitUntilPageLoad();
         softAssert.assertEquals(aboutAuthorPage.authorsBooks(),"Books By " + authorName,
                 "Missing statement Books By {Author name} ");
-        aboutAuthorPage.filterSortBy();
         aboutAuthorPage.clickOnPriceFilter();
         SortedBooksPage sortedBooksPage = new SortedBooksPage(driver);
         sortedBooksPage.waitUntilPageLoad();

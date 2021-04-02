@@ -17,9 +17,15 @@ public class AuthorBooksPage {
         this.driver = driver;
     }
 
-    public boolean isAllBooksAuthors(String authorName){
+    private List<WebElement> elementsOfBookList(){
 
         List<WebElement> booksList = driver.findElements(authorNameLoc);
+        return booksList;
+    }
+
+    public boolean isAllBooksAuthors(String authorName){
+
+        List<WebElement> booksList = elementsOfBookList();
         boolean checkCondition = true;
         for (WebElement i : booksList){
             if (!i.getText().toLowerCase().contains(authorName)){

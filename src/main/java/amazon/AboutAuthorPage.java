@@ -23,13 +23,9 @@ public class AboutAuthorPage {
        return driver.findElement(booksByAuthor).getText().trim();
     }
 
-    public void filterSortBy(){
-
-        driver.findElement(sortBy).click();
-    }
-
     public void clickOnPriceFilter(){
 
+        driver.findElement(sortBy).click();
         driver.findElement(filterPrice).click();
     }
 
