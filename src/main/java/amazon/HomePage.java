@@ -3,36 +3,45 @@ package amazon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class HomePage {
 
     private WebDriver driver;
-    private By deliverLoc = By.id("glow-ingress-block");
-    private By searchDropdownLoc = By.id("nav-search-dropdown-card");
-    private By booksLoc = By.cssSelector("[value='search-alias=stripbooks-intl-ship']");
-    private By search = By.id("twotabsearchtextbox");
+
+    @FindBy(id = "glow-ingress-block")
+    WebElement deliverLoc;
+    @FindBy(id = "nav-search-dropdown-card")
+    WebElement searchDropdownLoc;
+    @FindBy(css = "[value='search-alias=stripbooks-intl-ship']")
+    WebElement booksLoc;
+    @FindBy(id = "twotabsearchtextbox")
+    WebElement search;
     private By homePageLoad = By.id("navbar");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     public String deliveryToArmenia(){
 
-        return driver.findElement(deliverLoc).getText().replaceAll("\\s", "");
+        return deliverLoc.getText().replaceAll("\\s", "");
     }
 
     public void clickOnBookDepartment(){
 
-        driver.findElement(searchDropdownLoc).click();
-        driver.findElement(booksLoc).click();
+        searchDropdownLoc.click();
+        booksLoc.click();
     }
 
     public void authorSearch(String authorName){
 
-        driver.findElement(search).sendKeys(authorName, Keys.ENTER);
+        search.sendKeys(authorName, Keys.ENTER);
     }
 
 

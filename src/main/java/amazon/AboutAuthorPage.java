@@ -2,6 +2,9 @@ package amazon;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -9,24 +12,28 @@ public class AboutAuthorPage {
 
     private WebDriver driver;
     private By booksCarouselLoc = By.id("authorBooksCarousel");
-    private By booksByAuthor = By.id("formatSelectorHeader");
-    private By sortBy = By.cssSelector("[class='a-button-inner'] [data-action='a-dropdown-button']");
-    private By filterPrice = By.xpath("//div[@class='a-popover-wrapper']//a[contains(text(), 'Price: Low to High')]");
+    @FindBy(id = "formatSelectorHeader")
+    WebElement booksByAuthor;
+    @FindBy(css = "[class='a-button-inner'] [data-action='a-dropdown-button']")
+    WebElement sortBy;
+    @FindBy(xpath = "//div[@class='a-popover-wrapper']//a[contains(text(), 'Price: Low to High')]")
+    WebElement filterPrice;
 
     public AboutAuthorPage(WebDriver driver) {
 
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     public String authorsBooks(){
 
-       return driver.findElement(booksByAuthor).getText().trim();
+       return booksByAuthor.getText().trim();
     }
 
     public void clickOnPriceFilter(){
 
-        driver.findElement(sortBy).click();
-        driver.findElement(filterPrice).click();
+        sortBy.click();
+        filterPrice.click();
     }
 
     public void waitUntilPageLoad(){
