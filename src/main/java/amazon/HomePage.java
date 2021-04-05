@@ -1,6 +1,5 @@
 package amazon;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,31 +11,35 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class HomePage {
 
     private WebDriver driver;
-
+    private WebDriverWait wait;
     @FindBy(id = "glow-ingress-block")
-    WebElement deliverLoc;
+    WebElement deliverTo;
     @FindBy(id = "nav-search-dropdown-card")
-    WebElement searchDropdownLoc;
+    WebElement searchDropdown;
     @FindBy(css = "[value='search-alias=stripbooks-intl-ship']")
-    WebElement booksLoc;
+    WebElement booksDepartment;
     @FindBy(id = "twotabsearchtextbox")
     WebElement search;
-    private By homePageLoad = By.id("navbar");
+    @FindBy(id = "navbar")
+    WebElement homePageLoad;
 
     public HomePage(WebDriver driver) {
+
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, 10);
         PageFactory.initElements(driver, this);
     }
 
     public String deliveryToArmenia(){
 
-        return deliverLoc.getText().replaceAll("\\s", "");
+        return deliverTo.getText().replaceAll("\\s", "");
     }
 
     public void clickOnBookDepartment(){
 
-        searchDropdownLoc.click();
-        booksLoc.click();
+        searchDropdown.click();
+        wait.until(ExpectedConditions.elementToBeClickable(booksDepartment));
+        booksDepartment.click();
     }
 
     public void authorSearch(String authorName){
@@ -44,10 +47,8 @@ public class HomePage {
         search.sendKeys(authorName, Keys.ENTER);
     }
 
-
     public void waitUntilPageLoad(){
 
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLoad));
+        wait.until(ExpectedConditions.visibilityOf(homePageLoad));
     }
 }

@@ -47,7 +47,7 @@ public class AmazonBooksTest {
         authorBooksPage.clickOnAuthorName();
         AboutAuthorPage aboutAuthorPage = new AboutAuthorPage(driver);
         aboutAuthorPage.waitUntilPageLoad();
-        softAssert.assertEquals(aboutAuthorPage.authorsBooks(),"Books By " + authorName,
+        softAssert.assertEquals(aboutAuthorPage.authorsBooks(),"Titles By " + authorName,
                 "Missing statement Books By {Author name} ");
         aboutAuthorPage.clickOnPriceFilter();
         SortedBooksPage sortedBooksPage = new SortedBooksPage(driver);
