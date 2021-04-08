@@ -3,6 +3,8 @@ package amazon;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
@@ -10,24 +12,24 @@ import java.util.List;
 public class AuthorBooksPage {
 
     private WebDriver driver;
-    private By authorNameLoc = By.xpath("//div[@class='a-section a-spacing-none']//div[@class='a-row a-size-base a-color-secondary']");
-    private By authorNameLinkLoc = By.xpath("//div[@class='a-row a-size-base a-color-secondary']//a[@class='a-size-base a-link-normal']");
+    private WebDriverWait wait;
+    private final String authorNameLoc = "//div[@class='a-section a-spacing-none']//div[@class='a-row a-size-base a-color-secondary']";
+    @FindBy(xpath = authorNameLoc )
+    List<WebElement> authorNameList;
+    @FindBy(xpath = "//div[@class='a-row a-size-base a-color-secondary']//a[@class='a-size-base a-link-normal']")
+    WebElement authorNameLink;
 
     public AuthorBooksPage(WebDriver driver) {
+
         this.driver = driver;
-    }
-
-    private List<WebElement> elementsOfBookList(){
-
-        List<WebElement> booksList = driver.findElements(authorNameLoc);
-        return booksList;
+        this.wait = new WebDriverWait(driver, 10);
+        PageFactory.initElements(driver, this);
     }
 
     public boolean isAllBooksAuthors(String authorName){
 
-        List<WebElement> booksList = elementsOfBookList();
         boolean checkCondition = true;
-        for (WebElement i : booksList){
+        for (WebElement i : authorNameList){
             if (!i.getText().toLowerCase().contains(authorName)){
                  checkCondition = false;
                  break;
@@ -37,13 +39,12 @@ public class AuthorBooksPage {
 
     public void clickOnAuthorName(){
 
-        driver.findElement(authorNameLinkLoc).click();
+        authorNameLink.click();
     }
 
     public void waitUntilPageLoad(){
 
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(authorNameLoc));
-        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(authorNameLoc, 12));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(authorNameLoc)));
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(authorNameLoc), 12));
     }
 }

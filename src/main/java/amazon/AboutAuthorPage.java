@@ -1,37 +1,46 @@
 package amazon;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class AboutAuthorPage {
 
     private WebDriver driver;
-    private By booksCarouselLoc = By.id("authorBooksCarousel");
-    private By booksByAuthor = By.id("formatSelectorHeader");
-    private By sortBy = By.cssSelector("[class='a-button-inner'] [data-action='a-dropdown-button']");
-    private By filterPrice = By.xpath("//div[@class='a-popover-wrapper']//a[contains(text(), 'Price: Low to High')]");
+    private WebDriverWait wait;
+    @FindBy(id = "authorBooksCarousel")
+    WebElement booksCarousel;
+    @FindBy(id = "formatSelectorHeader")
+    WebElement booksByAuthor;
+    @FindBy(css = "[class='a-button-inner'] [data-action='a-dropdown-button']")
+    WebElement sortBy;
+    @FindBy(xpath = "//div[@class='a-popover-wrapper']//a[contains(text(), 'Price: Low to High')]")
+    WebElement filterPrice;
 
     public AboutAuthorPage(WebDriver driver) {
 
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, 10);
+        PageFactory.initElements(driver, this);
     }
 
     public String authorsBooks(){
 
-       return driver.findElement(booksByAuthor).getText().trim();
+       return booksByAuthor.getText().trim();
     }
 
     public void clickOnPriceFilter(){
 
-        driver.findElement(sortBy).click();
-        driver.findElement(filterPrice).click();
+        sortBy.click();
+        wait.until(ExpectedConditions.elementToBeClickable(filterPrice));
+        filterPrice.click();
     }
 
     public void waitUntilPageLoad(){
 
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(booksCarouselLoc));
+        wait.until(ExpectedConditions.visibilityOf(booksCarousel));
     }
 }
