@@ -4,15 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
-public class AuthorBooksPage {
+public class AuthorBooksPage extends BasePage {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
     private final String authorNameLoc = "//div[@class='a-section a-spacing-none']//div[@class='a-row a-size-base a-color-secondary']";
     @FindBy(xpath = authorNameLoc )
     List<WebElement> authorNameList;
@@ -20,10 +16,7 @@ public class AuthorBooksPage {
     WebElement authorNameLink;
 
     public AuthorBooksPage(WebDriver driver) {
-
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
-        PageFactory.initElements(driver, this);
+        super(driver);
     }
 
     public boolean isAllBooksAuthors(String authorName){
