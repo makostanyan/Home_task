@@ -3,14 +3,10 @@ package amazon;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class AboutAuthorPage {
+public class AboutAuthorPage extends BasePage {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
     @FindBy(id = "authorBooksCarousel")
     WebElement booksCarousel;
     @FindBy(id = "formatSelectorHeader")
@@ -21,11 +17,9 @@ public class AboutAuthorPage {
     WebElement filterPrice;
 
     public AboutAuthorPage(WebDriver driver) {
-
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
-        PageFactory.initElements(driver, this);
+        super(driver);
     }
+
 
     public String authorsBooks(){
 
