@@ -4,6 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -11,28 +12,19 @@ import io.restassured.specification.ResponseSpecification;
 
 public class GorestRequest {
 
-    String body = """
-            {
-            "name": "Hi Hello8",
-            "email": "HiHello8@test.com",
-            "gender": "Male",
-            "status": "Active"
-            }
-            """;
-
+    User user = User.createUser();
 
     public ValidatableResponse postUser() {
 
         ValidatableResponse response = RestAssured
                 .given()
                 .spec(requestSpecification())
-                .body(body)
+                .body(user)
                 .when()
                 .post("users")
                 .then();
         return response;
     }
-
 
     public String getId(ValidatableResponse response) {
 
